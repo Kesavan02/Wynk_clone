@@ -1,0 +1,22 @@
+[
+  {"name": "Taylor Swift", "image": "https://i.pinimg.com/564x/f7/d7/41/f7d741c459bbab5f5aa1f5db3e7278b0.jpg"},
+  {"name": "Ed Sheeran", "image": "https://i.pinimg.com/236x/34/b1/c1/34b1c1aa045a57c995e1cd14d0aec90f.jpg"},
+  {"name": "Beyoncé", "image": "https://i.pinimg.com/236x/b7/67/4a/b7674a09d3c11f18765f28180c55476c.jpg"},
+  {"name": "Drake", "image": "https://i.pinimg.com/564x/76/9a/a3/769aa3416e6f937831373dc11565d938.jpg"},
+  {"name": "Adele", "image": "https://i.pinimg.com/236x/30/ba/ef/30baef7e064ee2d330c6d6cc086c6df3.jpg"},
+  {"name": "Bruno Mars", "image": "https://i.pinimg.com/236x/83/b1/87/83b18759d647378aa6acf4ba0a0724c7.jpg"},
+  {"name": "Rihanna", "image": "https://i.pinimg.com/236x/16/7a/1d/167a1d56e79f953f198908c643ef14e1.jpg"},
+  {"name": "Kanye West", "image": "https://i.pinimg.com/236x/9f/7f/e2/9f7fe2eb556db22a9f6ccc347c574732.jpg"},
+  {"name": "Lady Gaga", "image": "https://i.pinimg.com/236x/ff/51/de/ff51de7a3f34b925d04018ab840db88e.jpg"},
+  {"name": "Justin Bieber", "image": "https://i.pinimg.com/236x/84/56/4c/84564ceb313aa6ca8a08da7efdf32e0f.jpg"},
+  {"name": "Ariana Grande", "image": "https://i.pinimg.com/236x/b5/67/60/b56760b3feb3c76fc9ba714670e72ea2.jpg"},
+  {"name": "The Weeknd", "image": "https://i.pinimg.com/236x/4c/c2/c7/4cc2c7d489dd44c9b4706343174d8312.jpg"},
+  {"name": "Katy Perry", "image": "https://i.pinimg.com/236x/5e/60/c8/5e60c83ef797a6ad5a3fd6c3baf0ac46.jpg"},
+  {"name": "Shawn Mendes", "image": "https://i.pinimg.com/236x/d3/f6/2b/d3f62bd3c900c4791ac1fec5c1523383.jpg"},
+  {"name": "Billie Eilish", "image": "https://i.pinimg.com/236x/09/56/80/095680c8b0b1820baaaf3ce38da53ad0.jpg"},
+  {"name": "Post Malone", "image": "https://i.pinimg.com/236x/bb/a3/fc/bba3fc27db9f4fa3326d0d4beae96004.jpg"},
+  {"name": "Halsey", "image": "https://i.pinimg.com/236x/9e/ac/ca/9eaccaf88d70cf0a5f5d6608d5fce306.jpg"},
+  {"name": "Harry Styles", "image": "https://i.pinimg.com/236x/49/e6/fc/49e6fc3a3e0d241c7050c47b9e4c2b4d.jpg"},
+  {"name": "Sam Smith", "image": "https://i.pinimg.com/236x/20/81/cf/2081cf47fcb4764072c100311b5e0164.jpg"},
+  {"name": "Dua Lipa", "image": "https://i.pinimg.com/474x/d5/e7/1b/d5e71b271a9bab0731d695ddb33bd510.jpg"}
+]

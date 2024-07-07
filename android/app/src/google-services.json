@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "189109064550",
+    "project_id": "wynk-clone-9c148",
+    "storage_bucket": "wynk-clone-9c148.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189109064550:android:40ab3ca31e866e2938aea7",
+        "android_client_info": {
+          "package_name": "com.example.wynk_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBcabcOvJxyXuV4aP6iGO41VZaOR7-F2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
