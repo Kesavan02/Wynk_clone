@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wynk_clone/drawer.dart';
 import 'package:wynk_clone/initial_page/first_page/bloc/firstpage_bloc.dart';
 import 'package:wynk_clone/utils.dart';
 import 'package:wynk_clone/initial_page/mobileno_details/ui/mobileno_details.dart';
