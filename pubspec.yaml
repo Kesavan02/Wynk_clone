@@ -47,6 +47,7 @@ dependencies:
   flutter_native_splash: ^2.4.0
   assets_audio_player: ^3.1.1
   file_picker: ^8.0.3
+  lottie: ^3.0.0
 
   # getX
   get: ^4.6.6
@@ -90,6 +91,8 @@ flutter:
      - lib/icons/
      - assets/
      - assets/movie_posters/
+     - assets/animations/anim_otp.json
+     - assets/animations/anim-mobileno.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

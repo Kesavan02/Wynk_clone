@@ -1,13 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-
 import 'package:wynk_clone/initial_page/language_selection/ui/language_select.dart';
 import 'package:wynk_clone/initial_page/mobileno_details/bloc/mobileno_details_bloc.dart';
 import 'package:wynk_clone/initial_page/otp_validation/ui/otp_screen.dart';
 import 'package:wynk_clone/utils.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../data/repositories/controllers/signup_controller.dart';
 
@@ -76,8 +75,14 @@ class MobileNoDetails extends StatelessWidget {
                           ))
                     ],
                   ),
-                  const SizedBox(
-                    height: 25,
+                  Center(
+                    child: LottieBuilder.asset(
+                      frameRate: FrameRate.max,
+                      'assets/animations/anim-mobileno.json',
+                      width: 250,
+                      height: 250,
+                      fit: BoxFit.fill,
+                    ),
                   ),
                   const Text(
                     'Enter your mobile number',
@@ -94,7 +99,7 @@ class MobileNoDetails extends StatelessWidget {
                     decoration: InputDecoration(
                         focusColor: Colors.white,
                         filled: true,
-                        fillColor: const Color.fromARGB(20, 80, 80, 80),
+                        fillColor: const Color.fromARGB(56, 79, 78, 78),
                         hintText: 'Mobile number',
                         hintStyle:
                             const TextStyle(fontSize: 15.0, color: Colors.grey),
@@ -108,7 +113,7 @@ class MobileNoDetails extends StatelessWidget {
                         )),
                   ),
                   const SizedBox(
-                    height: 450,
+                    height: 200,
                   ),
                   Wrap(
                     children: [
