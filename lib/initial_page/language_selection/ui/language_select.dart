@@ -65,9 +65,6 @@ class _LanguageSelectionState extends State<LanguageSelection> {
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () {
-                            doMultiSelection(index);
-                          },
-                          onLongPress: () {
                             if (!isMultiSelectionEnabled) {
                               isMultiSelectionEnabled = true;
                             }
@@ -76,7 +73,7 @@ class _LanguageSelectionState extends State<LanguageSelection> {
                           child: Stack(children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: list[index],
+                                color: list[index].withOpacity(1),
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
                               child: Center(
