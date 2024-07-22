@@ -127,7 +127,9 @@ class _LanguageSelectionState extends State<LanguageSelection> {
                                     const ArtistsSelection()));
                           },
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey,
+                              backgroundColor: selectedItem.length >= 2
+                                  ? Colors.blue
+                                  : Colors.grey,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
                               )),

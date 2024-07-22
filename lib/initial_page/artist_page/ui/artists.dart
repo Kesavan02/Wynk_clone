@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wynk_clone/initial_page/artist_page/bloc/artist_bloc.dart';
 import 'package:wynk_clone/utils.dart';
+import 'package:wynk_clone/initial_page/artist_page/data_fetch/json_fetch.dart';
 import '../../../bottom_navbar/ui/bottom_navbar.dart';
 
 class ArtistsSelection extends StatefulWidget {
@@ -20,14 +21,15 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
   final TextEditingController searchController = TextEditingController();
   HashSet selectedItem = HashSet();
   bool isMultiSelectionEnabled = false;
+  late Future<List<Map<String, dynamic>>> _data;
 
   ArtistBloc artistBloc = ArtistBloc();
 
   @override
   void initState() {
-    // TODO: implement initState
-    artistBloc.add(ArtistInitialEvent());
     super.initState();
+    _data = ArtistFetch().dataFetch();
+    artistBloc.add(ArtistInitialEvent());
   }
 
   @override
@@ -130,7 +132,9 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
                             builder: (context) => const BottomNavBar()));
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey,
+                          backgroundColor: (selectedItem.length >= 2)
+                              ? Colors.blue
+                              : Colors.grey,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),
                           )),
@@ -149,62 +153,81 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
   }
 
   Widget listGridArtists() {
-    return GridView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: list.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            mainAxisExtent: 140),
-        itemBuilder: (BuildContext context, index) {
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * .5,
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    doMultiSelection(index);
-                  },
-                  onLongPress: () {
-                    if (!isMultiSelectionEnabled) {
-                      isMultiSelectionEnabled = true;
-                    }
-                    doMultiSelection(index);
-                  },
-                  child: Stack(children: [
-                    CircleAvatar(
-                      radius: 55,
-                      backgroundImage: AssetImage(assetImages[index]),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(
-                                selectedItem.contains(index) ? 0.5 : 0),
-                            borderRadius: BorderRadius.circular(55)),
-                      ),
-                    ),
-                    Visibility(
-                      visible: selectedItem.contains(index),
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ),
-                    ),
-                  ]),
-                ),
-                const Spacer(),
-                const Text(
-                  'color',
-                  style: listViewText,
-                )
-              ],
-            ),
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: _data,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        });
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else if (snapshot.hasData) {
+          final List<Map<String, dynamic>> commonData = snapshot.data!;
+
+          return GridView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: list.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  mainAxisExtent: 140),
+              itemBuilder: (BuildContext context, index) {
+                final item = commonData[index];
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * .5,
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          if (!isMultiSelectionEnabled) {
+                            isMultiSelectionEnabled = true;
+                          }
+                          doMultiSelection(index);
+                        },
+                        child: Stack(children: [
+                          CircleAvatar(
+                            radius: 55,
+                            backgroundImage: AssetImage(item['image']),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(
+                                      selectedItem.contains(index) ? 0.5 : 0),
+                                  borderRadius: BorderRadius.circular(55)),
+                            ),
+                          ),
+                          Visibility(
+                            visible: selectedItem.contains(index),
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ),
+                      const Spacer(),
+                      Text(
+                        item['name'],
+                        style: listViewText,
+                      )
+                    ],
+                  ),
+                );
+              });
+        } else {
+          return const Center(
+            child: Text('No data'),
+          );
+        }
+      },
+    );
   }
 
   void doMultiSelection(int index) {
