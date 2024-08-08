@@ -10,4 +10,4 @@ flutter_native_splash:
     image: assets/Splash_light.jpg
     image_dark: assets/Splash_dark.jpg
 
-  web: false
+  web: true
