@@ -1,97 +1,113 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wynk_clone/initial_page/language_selection/ui/language_select.dart';
 import 'package:wynk_clone/initial_page/mobileno_details/bloc/mobileno_details_bloc.dart';
-import 'package:wynk_clone/initial_page/otp_validation/ui/otp_screen.dart';
+import 'package:wynk_clone/initial_page/mobileno_details/ui/widgets/custom_widgets.dart';
+import 'package:wynk_clone/responsive/responiveness.dart';
 import 'package:wynk_clone/utils.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wynk_clone/initial_page/mobileno_details/utils/functions.dart';
 
 import '../../../data/repositories/controllers/signup_controller.dart';
 
-class MobileNoDetails extends StatelessWidget {
+class MobileNoDetails extends StatefulWidget {
   const MobileNoDetails({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final controller = Get.put(SignUpController());
-    String selectCountryCode = "+91";
-    MobileNumberDetailsBloc mobileNumberDetailsBloc = MobileNumberDetailsBloc();
+  State<MobileNoDetails> createState() => _MobileNoDetailsState();
+}
 
-    const underlinedtext = TextStyle(
-      color: Colors.blue,
-      decoration: TextDecoration.underline,
-      decorationColor: Colors.blue,
-      decorationThickness: 2,
-      decorationStyle: TextDecorationStyle.wavy,
-    );
+class _MobileNoDetailsState extends State<MobileNoDetails> {
+  final controller = Get.put(SignUpController());
+
+  String selectCountryCode = "+91";
+
+  TextStyle underlinedText = const TextStyle(
+    color: Colors.blue,
+    decoration: TextDecoration.underline,
+    decorationColor: Colors.blue,
+    decorationThickness: 2,
+    decorationStyle: TextDecorationStyle.wavy,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    MobileNumberDetailsBloc mobileNumberDetailsBloc = MobileNumberDetailsBloc();
 
     return BlocConsumer(
       bloc: mobileNumberDetailsBloc,
       listener: (context, state) {},
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Colors.black,
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          padding: const EdgeInsets.only(top: 2, bottom: 5, right: 5, left: 5),
+          decoration: BoxDecoration(
+            color: Responsiveness.isMobile(context) ? Colors.black : null,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Spacer(),
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * .11,
-                          child: Image.asset(
-                            "lib/icons/common/back-arrow.png",
-                            height: MediaQuery.of(context).size.height * .09,
-                            width: MediaQuery.of(context).size.width * .09,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const Spacer(
-                        flex: 6,
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    const LanguageSelection()));
-                          },
-                          child: const Text(
-                            'SKIP',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 20,
-                              color: Colors.grey,
-                            ),
-                          ))
-                    ],
-                  ),
-                  Center(
-                    child: LottieBuilder.asset(
-                      frameRate: FrameRate.max,
-                      'assets/animations/anim-mobileno.json',
-                      width: 250,
-                      height: 250,
-                      fit: BoxFit.fill,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      "lib/icons/common/back-arrow.png",
+                      height: Responsiveness.isMobile(context) ? 30 : 60,
+                      width: Responsiveness.isDesktop(context) ? 30 : 60,
+                      color: Colors.white,
                     ),
                   ),
-                  const Text(
-                    'Enter your mobile number',
-                    style: subHeading,
+                  const Spacer(
+                    flex: 6,
                   ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  TextFormField(
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(PageTransition(
+                            child: const LanguageSelection(),
+                            type: PageTransitionType.theme,
+                            duration: const Duration(seconds: 1)));
+                      },
+                      child: const Text(
+                        'SKIP',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
+                          color: Colors.grey,
+                        ),
+                      ))
+                ],
+              ),
+              Center(
+                heightFactor: 0.7,
+                child: LottieBuilder.asset(
+                  frameRate: FrameRate.max,
+                  'assets/animations/anim-mobileno.json',
+                  width: 250,
+                  height: 250,
+                  fit: BoxFit.fill,
+                ),
+              ),
+              const Spacer(
+                flex: 3,
+              ),
+              const Text(
+                'Enter your mobile number',
+                style: subHeading,
+              ),
+              const Spacer(),
+              Center(
+                child: SizedBox(
+                  width: (Responsiveness.isMobile(context)) ? null : 500,
+                  child: TextFormField(
                     controller: controller.phoneNo,
                     textAlign: TextAlign.start,
                     keyboardType: TextInputType.number,
@@ -99,7 +115,7 @@ class MobileNoDetails extends StatelessWidget {
                     decoration: InputDecoration(
                         focusColor: Colors.white,
                         filled: true,
-                        fillColor: const Color.fromARGB(56, 79, 78, 78),
+                        fillColor: const Color.fromARGB(56, 181, 178, 178),
                         hintText: 'Mobile number',
                         hintStyle:
                             const TextStyle(fontSize: 15.0, color: Colors.grey),
@@ -112,91 +128,49 @@ class MobileNoDetails extends StatelessWidget {
                           borderSide: BorderSide.none,
                         )),
                   ),
-                  const SizedBox(
-                    height: 200,
-                  ),
-                  Wrap(
-                    children: [
-                      const Text(
-                        'By creating an account, you agree to the Wynk ',
-                        style: listViewText,
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: const Text(
-                          'Terms of Use',
-                          style: underlinedtext,
+                ),
+              ),
+              const Spacer(
+                flex: 14,
+              ),
+              Center(
+                child: textspan(context, underlinedText),
+              ),
+              const Spacer(
+                flex: 2,
+              ),
+              Center(
+                child: SizedBox(
+                  height: (Responsiveness.isPortrait(context))
+                      ? Responsiveness.isMobile(context)
+                          ? 40
+                          : 60
+                      : Responsiveness.isMobile(context)
+                          ? 40
+                          : 60,
+                  width: (Responsiveness.isPortrait(context))
+                      ? Responsiveness.width(context) * .75
+                      : Responsiveness.width(context) * .35,
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        otpValidationDialogBox(
+                            context, controller, selectCountryCode);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            ' and ',
-                            style: listViewText,
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: const Text(
-                              'Privacy Policy',
-                              style: underlinedtext,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * .06,
-                      width: MediaQuery.of(context).size.width * .85,
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            if (controller.phoneNo.text.length == 10) {
-                              await FirebaseAuth.instance.verifyPhoneNumber(
-                                phoneNumber:
-                                    selectCountryCode + controller.phoneNo.text,
-                                verificationCompleted:
-                                    (PhoneAuthCredential credential) {},
-                                verificationFailed:
-                                    (FirebaseAuthException e) {},
-                                codeSent:
-                                    (String verificationId, int? resendToken) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => OTPScreen(
-                                                mobileNumber:
-                                                    selectCountryCode +
-                                                        controller.phoneNo.text,
-                                                verificationId: verificationId,
-                                              )));
-                                },
-                                codeAutoRetrievalTimeout:
-                                    (String verificationId) {},
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey,
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                          ),
-                          child: const Center(
-                              child: Text(
-                            'Next',
-                            style: optionsText,
-                          ))),
-                    ),
-                  ),
-                ],
+                      child: const Center(
+                          child: Text(
+                        'Next',
+                        style: optionsText,
+                      ))),
+                ),
               ),
-            ),
+            ],
           ),
         );
       },

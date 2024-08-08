@@ -2,7 +2,10 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wynk_clone/initial_page/artist_page/bloc/artist_bloc.dart';
+import 'package:wynk_clone/initial_page/language_selection/ui/flutter_toast.dart';
+import 'package:wynk_clone/responsive/responiveness.dart';
 import 'package:wynk_clone/utils.dart';
 import 'package:wynk_clone/initial_page/artist_page/data_fetch/json_fetch.dart';
 import '../../../bottom_navbar/ui/bottom_navbar.dart';
@@ -22,6 +25,8 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
   HashSet selectedItem = HashSet();
   bool isMultiSelectionEnabled = false;
   late Future<List<Map<String, dynamic>>> _data;
+
+  FlutterToastMessage toast = FlutterToastMessage();
 
   ArtistBloc artistBloc = ArtistBloc();
 
@@ -62,8 +67,10 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
                       const Spacer(),
                       TextButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const BottomNavBar()));
+                            Navigator.of(context).push(PageTransition(
+                                child: const BottomNavBar(),
+                                type: PageTransitionType.theme,
+                                duration: const Duration(seconds: 1)));
                           },
                           child: const Text(
                             'SKIP',
@@ -128,8 +135,13 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
                   width: MediaQuery.of(context).size.width * .65,
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const BottomNavBar()));
+                        selectedItem.length <= 1
+                            ? toast.flutterToast(
+                                'Select ${2 - selectedItem.length} more artists')
+                            : Navigator.of(context).push(PageTransition(
+                                child: const BottomNavBar(),
+                                type: PageTransitionType.theme,
+                                duration: const Duration(seconds: 1)));
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: (selectedItem.length >= 2)
@@ -140,7 +152,7 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
                           )),
                       child: const Center(
                           child: Text(
-                        'Submit',
+                        'Next',
                         style: optionsText,
                       ))),
                 ),
@@ -170,8 +182,8 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
           return GridView.builder(
               scrollDirection: Axis.vertical,
               itemCount: list.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: Responsiveness.isMobile(context) ? 3 : 5,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   mainAxisExtent: 140),
@@ -188,28 +200,29 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
                           }
                           doMultiSelection(index);
                         },
-                        child: Stack(children: [
+                        child: Stack(alignment: Alignment.center, children: [
                           CircleAvatar(
                             radius: 55,
-                            backgroundImage: AssetImage(item['image']),
+                            backgroundImage: NetworkImage(item['image']),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.blue.withOpacity(
-                                      selectedItem.contains(index) ? 0.5 : 0),
+                                      selectedItem.contains(index) ? 0.3 : 0),
                                   borderRadius: BorderRadius.circular(55)),
                             ),
                           ),
                           Visibility(
-                            visible: selectedItem.contains(index),
-                            child: const Align(
-                              alignment: Alignment.center,
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            ),
-                          ),
+                              visible: selectedItem.contains(index),
+                              child: const Align(
+                                alignment: Alignment(.4, 1.4),
+                                child: Image(
+                                  image:
+                                      AssetImage('lib/icons/common/check.png'),
+                                  height: 25,
+                                  width: 25,
+                                  color: Colors.white,
+                                ),
+                              )),
                         ]),
                       ),
                       const Spacer(),
@@ -230,7 +243,7 @@ class ArtistsSelectionState extends State<ArtistsSelection> {
     );
   }
 
-  void doMultiSelection(int index) {
+  doMultiSelection(int index) {
     if (isMultiSelectionEnabled) {
       setState(() {
         if (selectedItem.contains(index)) {

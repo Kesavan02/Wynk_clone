@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wynk_clone/initial_page/language_selection/ui/language_select.dart';
 
 class OTPScreen extends StatelessWidget {
@@ -16,7 +17,6 @@ class OTPScreen extends StatelessWidget {
     FirebaseAuth auth = FirebaseAuth.instance;
     final otpController = TextEditingController();
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.1),
       body: Container(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -57,8 +57,10 @@ class OTPScreen extends StatelessWidget {
                     await auth.signInWithCredential(credential);
                     Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const LanguageSelection()));
+                        PageTransition(
+                            child: const LanguageSelection(),
+                            type: PageTransitionType.theme,
+                            duration: const Duration(seconds: 1)));
                   },
                   child: Text('Next'.toUpperCase())),
             )
