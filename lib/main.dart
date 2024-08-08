@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:wynk_clone/initial_page/first_page/ui/first_page.dart';
 
@@ -8,7 +10,7 @@ Future<void> main() async {
   ///Widgets Binding
   WidgetsFlutterBinding.ensureInitialized();
 
-  Platform.isAndroid
+  (kIsWeb || Platform.isAndroid)
       ? await Firebase.initializeApp(
           options: const FirebaseOptions(
             apiKey: "AIzaSyCBcabcOvJxyXuV4aP6iGO41VZaOR7-F2k",
@@ -17,10 +19,15 @@ Future<void> main() async {
             projectId: "wynk-clone-9c148",
           ),
         )
-      :
+      : await Firebase.initializeApp();
 
-      ///Initialize Firebase & Authentication Repository
-      await Firebase.initializeApp();
+  //Initialize Firebase & Authentication Repository
+  if (!kIsWeb) {
+    FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.instance;
+    await firebaseAppCheck.activate(
+      androidProvider: AndroidProvider.playIntegrity,
+    );
+  }
 
   runApp(const MyApp());
 }
@@ -42,6 +49,7 @@ class MyApp extends StatelessWidget {
       ),
       // A widget which will be started on application startup
       home: const MobileNo(),
+      initialRoute: '/',
     );
   }
 }
