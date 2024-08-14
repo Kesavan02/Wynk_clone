@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wynk_clone/mymusic/bloc/mymusic_bloc.dart';
 import 'package:wynk_clone/utils.dart';
 
+import '../../home/ui/widgets.dart';
+
 class MyMusicPage extends StatefulWidget {
   const MyMusicPage({super.key});
 

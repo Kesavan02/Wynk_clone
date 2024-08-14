@@ -1,6 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:wynk_clone/initial_page/otp_validation/ui/otp_screen.dart';
 
+import '../../../../data/repositories/controllers/signup_controller.dart';
 import '../../../../responsive/responiveness.dart';
 import '../../../../utils.dart';
 
@@ -30,6 +34,10 @@ TextSpan desktopLastTextSpan(underlinedText) {
 }
 
 Widget textspan(context, underlinedText) {
+  const String verificationId = '';
+  final controller = Get.put(SignUpController());
+
+  String selectCountryCode = "+91";
   return Text.rich(TextSpan(
     children: [
       const TextSpan(
@@ -38,7 +46,18 @@ Widget textspan(context, underlinedText) {
       TextSpan(
           text: 'Terms of Use',
           style: underlinedText,
-          recognizer: TapGestureRecognizer()..onTap = () {}),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: OTPScreen(
+                          mobileNumber:
+                              '$selectCountryCode ${controller.phoneNo.text}',
+                          verificationId: verificationId),
+                      type: PageTransitionType.theme,
+                      duration: const Duration(seconds: 1)));
+            }),
       (Responsiveness.isMobile(context))
           ? WidgetSpan(child: Center(child: mobileLastTextSpan(underlinedText)))
           : desktopLastTextSpan(underlinedText),
