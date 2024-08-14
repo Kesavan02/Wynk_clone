@@ -4,8 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 class FlutterToastMessage {
   Future<bool?> flutterToast(msg) {
     return Fluttertoast.showToast(
-        webPosition: Alignment.center,
-        webShowClose: true,
         gravity: ToastGravity.BOTTOM_LEFT,
         msg: msg,
         fontSize: 15,
