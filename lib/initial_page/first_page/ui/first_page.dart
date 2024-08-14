@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:wynk_clone/initial_page/first_page/bloc/firstpage_bloc.dart';
 import 'package:wynk_clone/responsive/responiveness.dart';
 import 'package:wynk_clone/utils.dart';
-import 'package:wynk_clone/initial_page/mobileno_details/ui/mobileno_details.dart';
+import 'first_page_widgets.dart';
 
 class MobileNo extends StatefulWidget {
   const MobileNo({super.key});
@@ -15,7 +14,6 @@ class MobileNo extends StatefulWidget {
 
 class _MobileNoState extends State<MobileNo> {
   FirstpageBloc firstPageBloc = FirstpageBloc();
-
   final String mobileNumber = "";
   final String verificationId = "";
 
@@ -66,6 +64,10 @@ class _MobileNoState extends State<MobileNo> {
                         const Spacer(
                           flex: 9,
                         ),
+                        Text(
+                          '$height, $width',
+                          style: TextStyle(color: Colors.white),
+                        ),
                         ClipOval(
                           child: SizedBox.fromSize(
                             size: const Size.fromRadius(45.0), // Image radius
@@ -95,37 +97,24 @@ class _MobileNoState extends State<MobileNo> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   Responsiveness.isMobile(context)
-                                      ? Navigator.push(
+                                      ? Navigator.push(context,
+                                          navigationIsMobileOnPressed())
+                                      : navigationIsTabletAndDesktopOnPressed(
                                           context,
-                                          PageTransition(
-                                            child: const Scaffold(
-                                                body: MobileNoDetails()),
-                                            type: PageTransitionType.theme,
-                                            duration:
-                                                const Duration(seconds: 1),
-                                            isIos: true,
-                                          ))
-                                      : showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
+                                          Responsiveness.isTablet(context)
+                                              ? const EdgeInsets.only(
                                                   top: 100,
                                                   bottom: 100,
-                                                  right: 250,
-                                                  left: 250),
-                                              child: Dialog(
-                                                backgroundColor: Colors.white
-                                                    .withOpacity(0.3),
-                                                elevation: 5,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0)),
-                                                child: const MobileNoDetails(),
-                                              ),
-                                            );
-                                          });
+                                                  left: 250,
+                                                  right: 250)
+                                              : Responsiveness.isDesktop(
+                                                      context)
+                                                  ? const EdgeInsets.only(
+                                                      top: 100,
+                                                      bottom: 100,
+                                                      left: 250,
+                                                      right: 250)
+                                                  : null);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.blue,
