@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wynk_clone/hellotune_page/ui/hellotune_card_widget.dart';
 import 'package:wynk_clone/utils.dart';
 
+import '../../home/ui/widgets.dart';
 import '../bloc/hellotune_bloc.dart';
 
 class HelloTunePage extends StatefulWidget {
@@ -28,7 +30,9 @@ class _HelloTunePageState extends State<HelloTunePage> {
       bloc: hellotuneBloc,
       listener: (context, state) {},
       builder: (context, state) {
-        print(state.runtimeType);
+        if (kDebugMode) {
+          print(state.runtimeType);
+        }
         switch (state.runtimeType) {
           case HellotuneInitialState:
             return Scaffold(
