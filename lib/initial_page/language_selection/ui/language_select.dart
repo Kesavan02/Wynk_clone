@@ -38,7 +38,7 @@ class LanguageSelectionState extends State<LanguageSelection> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Spacer(
-                  flex: 5,
+                  flex: 6,
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 15.0),
@@ -48,7 +48,7 @@ class LanguageSelectionState extends State<LanguageSelection> {
                   ),
                 ),
                 const Spacer(
-                  flex: 1,
+                  flex: 2,
                 ),
                 Center(
                   child: Text(
@@ -58,7 +58,9 @@ class LanguageSelectionState extends State<LanguageSelection> {
                     style: optionsText,
                   ),
                 ),
-                const Spacer(),
+                const Spacer(
+                  flex: 2,
+                ),
                 Container(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   height: MediaQuery.of(context).size.height * .79,
@@ -118,10 +120,10 @@ class LanguageSelectionState extends State<LanguageSelection> {
                 ),
                 const Spacer(),
                 Center(
-                  heightFactor: 0.9,
+                  heightFactor: 1,
                   child: SizedBox(
                     height: (Responsiveness.isPortrait(context))
-                        ? MediaQuery.of(context).size.height * .062
+                        ? MediaQuery.of(context).size.height * .06
                         : MediaQuery.of(context).size.height * .1,
                     width: MediaQuery.of(context).size.width * .65,
                     child: ElevatedButton(
